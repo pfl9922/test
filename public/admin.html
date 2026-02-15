@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Ferrari Championship</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Racing+Sans+One&family=Bebas+Neue&family=Oswald:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ferrari-red: #DC0000;
+            --rosso-corsa: #D40000;
+            --deep-red: #8B0000;
+            --italian-yellow: #FFF200;
+            --carbon-black: #0a0a0a;
+            --asphalt-gray: #1a1a1a;
+            --metal-gray: #2d2d2d;
+            --white: #ffffff;
+            --cream: #f8f6f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Oswald', sans-serif;
+            background: linear-gradient(135deg, var(--carbon-black) 0%, var(--asphalt-gray) 50%, var(--metal-gray) 100%);
+            color: var(--cream);
+            min-height: 100vh;
+        }
+
+        .login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .login-box {
+            background: rgba(26, 26, 26, 0.95);
+            border: 3px solid var(--ferrari-red);
+            padding: 50px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .login-box h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            color: var(--ferrari-red);
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+        }
+
+        .login-box p {
+            color: var(--italian-yellow);
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            color: var(--cream);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            background: var(--metal-gray);
+            border: 2px solid var(--ferrari-red);
+            color: var(--cream);
+            font-family: 'Oswald', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--italian-yellow);
+            box-shadow: 0 0 15px rgba(255, 242, 0, 0.3);
+        }
+
+        .btn {
+            padding: 15px 35px;
+            background: linear-gradient(135deg, var(--ferrari-red), var(--deep-red));
+            border: 2px solid var(--italian-yellow);
+            color: var(--cream);
+            font-family: 'Oswald', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 0, 0, 0.4);
+        }
+
+        .btn.secondary {
+            background: linear-gradient(135deg, var(--metal-gray), var(--asphalt-gray));
+            border-color: var(--ferrari-red);
+        }
+
+        .btn.danger {
+            background: linear-gradient(135deg, #8B0000, #5a0000);
+        }
+
+        .admin-container {
+            display: none;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 0;
+            border-bottom: 3px solid var(--ferrari-red);
+            margin-bottom: 30px;
+        }
+
+        .admin-header h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            color: var(--ferrari-red);
+            letter-spacing: 4px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .header-actions .btn {
+            width: auto;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+
+        .section {
+            background: rgba(26, 26, 26, 0.8);
+            border: 2px solid var(--metal-gray);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--italian-yellow);
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--ferrari-red);
+            padding-bottom: 10px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .driver-list {
+            list-style: none;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .driver-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: var(--metal-gray);
+            border-left: 4px solid var(--ferrari-red);
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .driver-item:hover {
+            background: rgba(220, 0, 0, 0.1);
+            transform: translateX(5px);
+        }
+
+        .driver-info {
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        .delete-btn {
+            padding: 8px 15px;
+            background: var(--deep-red);
+            border: 1px solid var(--ferrari-red);
+            color: var(--cream);
+            font-family: 'Oswald', sans-serif;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background: #5a0000;
+        }
+
+        .race-history {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .race-item {
+            padding: 15px;
+            background: var(--metal-gray);
+            border-left: 4px solid var(--italian-yellow);
+            margin-bottom: 10px;
+        }
+
+        .race-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .race-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--italian-yellow);
+        }
+
+        .race-details {
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+
+        .message {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--ferrari-red);
+            background: rgba(220, 0, 0, 0.1);
+        }
+
+        .message.success {
+            border-left-color: #00AA00;
+            background: rgba(0, 170, 0, 0.1);
+        }
+
+        .message.error {
+            border-left-color: var(--deep-red);
+            background: rgba(139, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .header-actions {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .header-actions .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-box">
+            <h1>ADMIN</h1>
+            <p>FERRARI CHAMPIONSHIP</p>
+            <form onsubmit="login(event)">
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn">ACCESS ADMIN PANEL</button>
+            </form>
+            <div style="margin-top: 20px;">
+                <a href="/" style="color: var(--ferrari-red); text-decoration: none; letter-spacing: 1px;">← Back to Standings</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="admin-container">
+        <div class="admin-header">
+            <h1>ADMIN CONTROL PANEL</h1>
+            <div class="header-actions">
+                <a href="/" class="btn secondary">View Public Site</a>
+                <button class="btn danger" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <div id="messageContainer"></div>
+
+        <!-- Add Driver Section -->
+        <div class="section">
+            <h2>Add New Driver</h2>
+            <form onsubmit="addDriver(event)">
+                <div class="form-group">
+                    <label>Driver Name</label>
+                    <input type="text" id="newDriverName" placeholder="Enter driver name" required>
+                </div>
+                <button type="submit" class="btn">Add Driver</button>
+            </form>
+        </div>
+
+        <!-- Manage Drivers & Record Race -->
+        <div class="grid-2">
+            <div class="section">
+                <h2>Current Drivers</h2>
+                <ul id="driverList" class="driver-list">
+                    <li style="padding: 20px; text-align: center; opacity: 0.6;">Loading drivers...</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Record Race Result</h2>
+                <form onsubmit="addRaceResult(event)">
+                    <div class="form-group">
+                        <label>Race Number</label>
+                        <input type="number" id="raceNumber" min="1" placeholder="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Race Name (Optional)</label>
+                        <input type="text" id="raceName" placeholder="e.g., Phoenix Grand Prix">
+                    </div>
+                    <div class="form-group">
+                        <label>Driver</label>
+                        <select id="raceDriver" required>
+                            <option value="">-- Select Driver --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Finishing Position</label>
+                        <input type="number" id="racePosition" min="1" placeholder="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Points Earned</label>
+                        <input type="number" id="racePoints" min="0" placeholder="25" required>
+                    </div>
+                    <button type="submit" class="btn">Record Result</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Race History -->
+        <div class="section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0;">Recent Race Results</h2>
+                <button class="btn danger" onclick="resetSeason()" style="width: auto; padding: 10px 20px; font-size: 0.9rem;">Reset Season</button>
+            </div>
+            <div id="raceHistory" class="race-history">
+                <p style="padding: 20px; text-align: center; opacity: 0.6;">Loading race history...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let adminPassword = '';
+
+        // Login
+        async function login(event) {
+            event.preventDefault();
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                const response = await fetch('/api/admin/verify', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password })
+                });
+
+                if (response.ok) {
+                    adminPassword = password;
+                    document.getElementById('loginScreen').style.display = 'none';
+                    document.getElementById('adminPanel').style.display = 'block';
+                    loadDrivers();
+                    loadRaceHistory();
+                } else {
+                    alert('Invalid password');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Login failed. Please try again.');
+            }
+        }
+
+        // Logout
+        function logout() {
+            adminPassword = '';
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('loginPassword').value = '';
+        }
+
+        // Show message
+        function showMessage(text, type = 'success') {
+            const container = document.getElementById('messageContainer');
+            container.innerHTML = `<div class="message ${type}">${text}</div>`;
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        // Load drivers
+        async function loadDrivers() {
+            try {
+                const response = await fetch('/api/admin/drivers', {
+                    headers: { 'x-admin-password': adminPassword }
+                });
+                const drivers = await response.json();
+
+                // Update driver list
+                const driverList = document.getElementById('driverList');
+                if (drivers.length === 0) {
+                    driverList.innerHTML = '<li style="padding: 20px; text-align: center; opacity: 0.6;">No drivers yet</li>';
+                } else {
+                    driverList.innerHTML = drivers.map(driver => `
+                        <li class="driver-item">
+                            <span class="driver-info">${driver.name}</span>
+                            <button class="delete-btn" onclick="deleteDriver('${driver.id}')">Delete</button>
+                        </li>
+                    `).join('');
+                }
+
+                // Update race driver dropdown
+                const raceDriver = document.getElementById('raceDriver');
+                raceDriver.innerHTML = '<option value="">-- Select Driver --</option>' +
+                    drivers.map(driver => `<option value="${driver.id}">${driver.name}</option>`).join('');
+
+            } catch (error) {
+                console.error('Error loading drivers:', error);
+            }
+        }
+
+        // Add driver
+        async function addDriver(event) {
+            event.preventDefault();
+            const name = document.getElementById('newDriverName').value.trim();
+
+            try {
+                const response = await fetch('/api/admin/drivers', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-admin-password': adminPassword
+                    },
+                    body: JSON.stringify({ name })
+                });
+
+                if (response.ok) {
+                    showMessage('Driver added successfully!');
+                    document.getElementById('newDriverName').value = '';
+                    loadDrivers();
+                } else {
+                    showMessage('Failed to add driver', 'error');
+                }
+            } catch (error) {
+                console.error('Error adding driver:', error);
+                showMessage('Error adding driver', 'error');
+            }
+        }
+
+        // Delete driver
+        async function deleteDriver(id) {
+            if (!confirm('Are you sure? This will delete the driver and all their race results.')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/admin/drivers/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'x-admin-password': adminPassword }
+                });
+
+                if (response.ok) {
+                    showMessage('Driver deleted successfully!');
+                    loadDrivers();
+                    loadRaceHistory();
+                } else {
+                    showMessage('Failed to delete driver', 'error');
+                }
+            } catch (error) {
+                console.error('Error deleting driver:', error);
+                showMessage('Error deleting driver', 'error');
+            }
+        }
+
+        // Add race result
+        async function addRaceResult(event) {
+            event.preventDefault();
+
+            const raceNumber = document.getElementById('raceNumber').value;
+            const raceName = document.getElementById('raceName').value;
+            const driverId = document.getElementById('raceDriver').value;
+            const position = document.getElementById('racePosition').value;
+            const points = document.getElementById('racePoints').value;
+
+            try {
+                const response = await fetch('/api/admin/races', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-admin-password': adminPassword
+                    },
+                    body: JSON.stringify({
+                        raceNumber: parseInt(raceNumber),
+                        raceName,
+                        driverId,
+                        position: parseInt(position),
+                        points: parseInt(points)
+                    })
+                });
+
+                if (response.ok) {
+                    showMessage('Race result recorded successfully!');
+                    document.getElementById('racePosition').value = '';
+                    document.getElementById('racePoints').value = '';
+                    document.getElementById('raceName').value = '';
+                    loadRaceHistory();
+                } else {
+                    showMessage('Failed to record race result', 'error');
+                }
+            } catch (error) {
+                console.error('Error recording race result:', error);
+                showMessage('Error recording race result', 'error');
+            }
+        }
+
+        // Load race history
+        async function loadRaceHistory() {
+            try {
+                const response = await fetch('/api/races');
+                const races = await response.json();
+
+                const raceHistory = document.getElementById('raceHistory');
+                if (races.length === 0) {
+                    raceHistory.innerHTML = '<p style="padding: 20px; text-align: center; opacity: 0.6;">No race results yet</p>';
+                } else {
+                    raceHistory.innerHTML = races.map(race => `
+                        <div class="race-item">
+                            <div class="race-item-header">
+                                <span class="race-title">${race.raceName || `Race ${race.raceNumber}`}</span>
+                                <button class="delete-btn" onclick="deleteRace('${race.id}')">Delete</button>
+                            </div>
+                            <div class="race-details">
+                                ${race.driverName} - Position ${race.position} - ${race.points} points
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('Error loading race history:', error);
+            }
+        }
+
+        // Delete race
+        async function deleteRace(id) {
+            if (!confirm('Delete this race result?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/admin/races/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'x-admin-password': adminPassword }
+                });
+
+                if (response.ok) {
+                    showMessage('Race result deleted successfully!');
+                    loadRaceHistory();
+                } else {
+                    showMessage('Failed to delete race result', 'error');
+                }
+            } catch (error) {
+                console.error('Error deleting race result:', error);
+                showMessage('Error deleting race result', 'error');
+            }
+        }
+
+        // Reset season
+        async function resetSeason() {
+            if (!confirm('Are you sure you want to reset the entire season? This will delete ALL race results but keep the drivers.')) {
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/admin/reset', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-admin-password': adminPassword
+                    }
+                });
+
+                if (response.ok) {
+                    showMessage('Season reset successfully!');
+                    loadRaceHistory();
+                } else {
+                    showMessage('Failed to reset season', 'error');
+                }
+            } catch (error) {
+                console.error('Error resetting season:', error);
+                showMessage('Error resetting season', 'error');
+            }
+        }
+    </script>
+</body>
+</html>

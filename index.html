@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferrari Club of America - Southwest GoKart Championship 2026-2027</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Racing+Sans+One&family=Bebas+Neue&family=Oswald:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ferrari-red: #DC0000;
+            --rosso-corsa: #D40000;
+            --deep-red: #8B0000;
+            --italian-yellow: #FFF200;
+            --carbon-black: #0a0a0a;
+            --asphalt-gray: #1a1a1a;
+            --metal-gray: #2d2d2d;
+            --white: #ffffff;
+            --cream: #f8f6f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Oswald', sans-serif;
+            background: linear-gradient(135deg, var(--carbon-black) 0%, var(--asphalt-gray) 50%, var(--metal-gray) 100%);
+            color: var(--cream);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255, 255, 255, 0.02) 2px,
+                    rgba(255, 255, 255, 0.02) 4px
+                );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        header {
+            padding: 40px 0 20px;
+            text-align: center;
+            position: relative;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .prancing-horse {
+            width: 80px;
+            height: 80px;
+            background: var(--ferrari-red);
+            clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.5rem;
+            letter-spacing: 6px;
+            color: var(--ferrari-red);
+            text-transform: uppercase;
+            text-shadow: 
+                0 0 10px rgba(220, 0, 0, 0.5),
+                0 0 20px rgba(220, 0, 0, 0.3),
+                0 0 30px rgba(220, 0, 0, 0.2);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-family: 'Racing Sans One', sans-serif;
+            font-size: 1.3rem;
+            color: var(--italian-yellow);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .season-badge {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 30px;
+            background: linear-gradient(135deg, var(--ferrari-red), var(--deep-red));
+            border: 2px solid var(--italian-yellow);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 3px;
+            transform: skewX(-5deg);
+            box-shadow: 0 4px 15px rgba(220, 0, 0, 0.4);
+        }
+
+        .season-badge span {
+            display: inline-block;
+            transform: skewX(5deg);
+        }
+
+        .refresh-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 15px 25px;
+            background: linear-gradient(135deg, var(--ferrari-red), var(--deep-red));
+            border: 2px solid var(--italian-yellow);
+            color: var(--cream);
+            font-family: 'Oswald', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(220, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(220, 0, 0, 0.7);
+        }
+
+        .standings-container {
+            margin: 40px 0;
+            animation: fadeIn 1.2s ease-out 0.5s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .standings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--ferrari-red);
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .standings-header h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            letter-spacing: 4px;
+            color: var(--italian-yellow);
+        }
+
+        .race-counter {
+            font-family: 'Racing Sans One', sans-serif;
+            font-size: 1.2rem;
+            color: var(--ferrari-red);
+        }
+
+        .leaderboard {
+            background: rgba(26, 26, 26, 0.8);
+            border: 2px solid var(--metal-gray);
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .leaderboard-header {
+            display: grid;
+            grid-template-columns: 80px 1fr 120px 120px 150px;
+            gap: 20px;
+            padding: 20px 30px;
+            background: linear-gradient(135deg, var(--ferrari-red), var(--deep-red));
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            border-bottom: 3px solid var(--italian-yellow);
+        }
+
+        .driver-row {
+            display: grid;
+            grid-template-columns: 80px 1fr 120px 120px 150px;
+            gap: 20px;
+            padding: 20px 30px;
+            border-bottom: 1px solid var(--metal-gray);
+            transition: all 0.3s ease;
+            animation: slideIn 0.5s ease-out backwards;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .driver-row:nth-child(2) { animation-delay: 0.1s; }
+        .driver-row:nth-child(3) { animation-delay: 0.2s; }
+        .driver-row:nth-child(4) { animation-delay: 0.3s; }
+        .driver-row:nth-child(5) { animation-delay: 0.4s; }
+        .driver-row:nth-child(6) { animation-delay: 0.5s; }
+        .driver-row:nth-child(7) { animation-delay: 0.6s; }
+        .driver-row:nth-child(8) { animation-delay: 0.7s; }
+
+        .driver-row:hover {
+            background: rgba(220, 0, 0, 0.1);
+            transform: translateX(5px);
+        }
+
+        .position {
+            font-family: 'Racing Sans One', sans-serif;
+            font-size: 2rem;
+            color: var(--italian-yellow);
+            text-align: center;
+        }
+
+        .position-1 { color: #FFD700; text-shadow: 0 0 10px #FFD700; }
+        .position-2 { color: #C0C0C0; text-shadow: 0 0 10px #C0C0C0; }
+        .position-3 { color: #CD7F32; text-shadow: 0 0 10px #CD7F32; }
+
+        .driver-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .points {
+            font-family: 'Racing Sans One', sans-serif;
+            font-size: 1.8rem;
+            color: var(--ferrari-red);
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .races-completed {
+            text-align: center;
+            color: var(--cream);
+            opacity: 0.8;
+        }
+
+        .avg-points {
+            text-align: center;
+            color: var(--italian-yellow);
+            font-size: 1.1rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--cream);
+            opacity: 0.6;
+        }
+
+        .empty-state h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2rem;
+            color: var(--italian-yellow);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 60px;
+            border-top: 2px solid var(--ferrari-red);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .admin-link {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: rgba(26, 26, 26, 0.9);
+            border: 2px solid var(--ferrari-red);
+            color: var(--ferrari-red);
+            font-family: 'Oswald', sans-serif;
+            text-decoration: none;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .admin-link:hover {
+            background: var(--ferrari-red);
+            color: var(--cream);
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .subtitle { font-size: 1rem; }
+            .leaderboard-header,
+            .driver-row {
+                grid-template-columns: 60px 1fr 80px;
+                gap: 10px;
+                padding: 15px;
+            }
+            .races-completed,
+            .avg-points {
+                display: none;
+            }
+            .prancing-horse {
+                width: 50px;
+                height: 50px;
+            }
+            .refresh-btn {
+                bottom: 20px;
+                right: 20px;
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="/admin" class="admin-link">ADMIN</a>
+
+    <div class="container">
+        <header>
+            <div class="logo-area">
+                <div class="prancing-horse"></div>
+                <div>
+                    <h1>FCA Southwest</h1>
+                    <div class="subtitle">GoKart Championship</div>
+                </div>
+                <div class="prancing-horse"></div>
+            </div>
+            <div class="season-badge">
+                <span id="seasonBadge">2026-2027 SEASON</span>
+            </div>
+        </header>
+
+        <div class="standings-container">
+            <div class="standings-header">
+                <h2>Current Standings</h2>
+                <div class="race-counter">Races Completed: <span id="totalRaces">0</span></div>
+            </div>
+
+            <div class="leaderboard">
+                <div class="leaderboard-header">
+                    <div>POS</div>
+                    <div>DRIVER</div>
+                    <div class="races-completed">RACES</div>
+                    <div class="avg-points">AVG</div>
+                    <div>POINTS</div>
+                </div>
+                <div id="standingsBody">
+                    <div class="loading">Loading standings...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="refresh-btn" onclick="loadStandings()">🔄 REFRESH</button>
+
+    <footer>
+        <p>Ferrari Club of America - Southwest Region © 2026-2027</p>
+        <p>Forza Ferrari | Passione Rosso Corsa</p>
+    </footer>
+
+    <script>
+        // Load standings from API
+        async function loadStandings() {
+            try {
+                const response = await fetch('/api/standings');
+                const data = await response.json();
+                
+                updateStandings(data.standings);
+                updateRaceCounter(data.totalRaces);
+                updateSeasonBadge(data.season);
+            } catch (error) {
+                console.error('Error loading standings:', error);
+                showError();
+            }
+        }
+
+        // Update standings display
+        function updateStandings(standings) {
+            const standingsBody = document.getElementById('standingsBody');
+            standingsBody.innerHTML = '';
+
+            if (standings.length === 0) {
+                standingsBody.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No Drivers Yet</h3>
+                        <p>Championship standings will appear here once drivers are added</p>
+                    </div>
+                `;
+                return;
+            }
+
+            standings.forEach((driver, index) => {
+                const position = index + 1;
+
+                const row = document.createElement('div');
+                row.className = 'driver-row';
+                row.innerHTML = `
+                    <div class="position position-${position <= 3 ? position : ''}">${position}</div>
+                    <div class="driver-name">${driver.name}</div>
+                    <div class="races-completed">${driver.racesCompleted}</div>
+                    <div class="avg-points">${driver.avgPoints}</div>
+                    <div class="points">${driver.points}</div>
+                `;
+                standingsBody.appendChild(row);
+            });
+        }
+
+        // Update race counter
+        function updateRaceCounter(totalRaces) {
+            document.getElementById('totalRaces').textContent = totalRaces;
+        }
+
+        // Update season badge
+        function updateSeasonBadge(season) {
+            if (season) {
+                document.getElementById('seasonBadge').textContent = season + ' SEASON';
+            }
+        }
+
+        // Show error state
+        function showError() {
+            const standingsBody = document.getElementById('standingsBody');
+            standingsBody.innerHTML = `
+                <div class="empty-state">
+                    <h3>Connection Error</h3>
+                    <p>Unable to load standings. Please try again.</p>
+                </div>
+            `;
+        }
+
+        // Auto-refresh every 30 seconds
+        setInterval(loadStandings, 30000);
+
+        // Initial load
+        loadStandings();
+    </script>
+</body>
+</html>
